@@ -56,21 +56,23 @@
     {  
         // creates an initial cell value
         board = new Cell[_numRows, _numColumns];
-
         //puts a copy of the initial cell value in a cell of the board
+        InitialBoard();
+        //puts mines in cells
+        PlaceMines();
+        //updates the number of mines in the neighbors of a cell if it is not mined.
+        CheckAdjacentCells();
+    }
+    private void InitialBoard()
+    {
         for (int x = 0; x < _numRows; x++)
         {
             for (int y = 0; y < _numColumns; y++)
             {
                 board[x, y] = new Cell { mined = false, seen = false, flag = false, neighborMines = 0 };
             }
-        }
-        //puts mines in cells
-        PlaceMines();
-        //updates the number of mines in the neighbors of a cell if it is not mined.
-        CheckAdjacentCells();
+        }        
     }
-
     private void PlaceMines()
     {
         var random = new Random();
@@ -86,7 +88,6 @@
             }
         }
     }
-
     private void CheckAdjacentCells()
     {
         for (int x = 0; x < _numRows; x++)
@@ -102,70 +103,44 @@
             }
         }
     }
-
     private int CheckCell(int x, int y)
     {
         int adjacentMines = 0;
 
         // Check above
-        if (x > 0)
-        {
-            if (board[x - 1, y].mined == true)
-                adjacentMines++;
-        }
+        if (x > 0 && board[x - 1, y].mined == true)
+            adjacentMines++;
 
         // Check below
-        if (x < _numRows - 1)
-        {
-            if (board[x + 1, y].mined == true)
-                adjacentMines++;
-        }
+        if (x < _numRows - 1 && board[x + 1, y].mined == true)
+            adjacentMines++;
 
         // Check left
-        if (y > 0)
-        {
-            if (board[x, y - 1].mined == true)
-                adjacentMines++;
-        }
+        if (y > 0 && board[x, y - 1].mined == true)
+            adjacentMines++;
 
         // Check right
-        if (y < _numColumns - 1)
-        {
-            if (board[x, y + 1].mined == true)
-                adjacentMines++;
-        }
+        if (y < _numColumns - 1 && board[x, y + 1].mined == true)
+            adjacentMines++;
 
         // Check top left
-        if (x > 0 && y > 0)
-        {
-            if (board[x - 1, y - 1].mined == true)
-                adjacentMines++;
-        }
+        if (x > 0 && y > 0 && board[x - 1, y - 1].mined == true)
+            adjacentMines++;
 
         // Check top right
-        if (x > 0 && y < _numColumns - 1)
-        {
-            if (board[x - 1, y + 1].mined == true)
-                adjacentMines++;
-        }
+        if (x > 0 && y < _numColumns - 1 && board[x - 1, y + 1].mined == true)
+            adjacentMines++;
 
         // Check bottom left
-        if (x < _numRows - 1 && y > 0)
-        {
-            if (board[x + 1, y - 1].mined == true)
-                adjacentMines++;
-        }
+        if (x < _numRows - 1 && y > 0 && board[x + 1, y - 1].mined == true)
+            adjacentMines++;
 
         // Check bottom right
-        if (x < _numRows - 1 && y < _numColumns - 1)
-        {
-            if (board[x + 1, y + 1].mined == true)
-                adjacentMines++;
-        }
+        if (x < _numRows - 1 && y < _numColumns - 1 && board[x + 1, y + 1].mined == true)
+            adjacentMines++;
 
         return adjacentMines;
     }
-
     private void OpenCells(int row, int col)
     {
         if(_flagMode)
@@ -182,29 +157,8 @@
             board[row, col].flag = false;
             if (board[row, col].mined != true && board[row, col].neighborMines == 0)
             {
-                for (int r = row - 1; r <= row + 1; r++) 
-                { 
-                    for (int c = col - 1; c <= col + 1; c++) 
-                    { 
-                        // If neighboring cell is within bounds 
-                        if (r >= 0 && r < board.GetLength(0) && c >= 0 && c < board.GetLength(1)) 
-                        { 
-                            // If neighboring cell is not a mine 
-                            if (board[r, c].mined != true  && IsEmptyNeighbors(r, c)) 
-                            { 
-                                // Open the neighboring cell 
-                                OpenCells(r, c); 
-                            } else
-                            {
-                                if(board[r, c].mined != true)
-                                    board[r, c].seen = true;
-                            } 
-                        } 
-                    } 
-                }               
+                OpenNeighbors(row, col);
             }
-            // Check all neighboring cells 
-
         } 
     }
     private bool IsEmptyNeighbors(int row, int col) 
@@ -230,41 +184,62 @@
         // Return true if no mines are found in neighboring cells 
         return true; 
     }
-
+    private void OpenNeighbors(int row, int col)
+    {
+        for (int r = row - 1; r <= row + 1; r++) 
+        { 
+            for (int c = col - 1; c <= col + 1; c++) 
+            { 
+                // If neighboring cell is within bounds 
+                if (r >= 0 && r < board.GetLength(0) && c >= 0 && c < board.GetLength(1)) 
+                { 
+                    // If neighboring cell is not a mine 
+                    if (board[r, c].mined != true  && IsEmptyNeighbors(r, c)) 
+                    { 
+                        // Open the neighboring cell 
+                        OpenCells(r, c); 
+                    } else
+                    {
+                        if(board[r, c].mined != true)
+                            board[r, c].seen = true;
+                    } 
+                } 
+            } 
+        }
+    }
     private string buttonColorDisplay(int row, int column)
     {
-        if(board[row, column].seen)
+        if(!board[row, column].seen)
         {
-            if(board[row, column].flag)
-            {
-                return "btn-success";
-            } else
-            {
-                if(board[row, column].mined)
-                {
-                    return "btn-dark";
-                }
-                if(board[row, column].neighborMines == 0)
-                {
-                    return "btn-light";
-                }
-                if(board[row, column].neighborMines < 2)
-                {
-                   return "btn-warning";
-                }
-                if(board[row, column].neighborMines > 1)
-                {
-                   return "btn-danger";
-                }                
-            }
+            return "btn-primary";
         }
+        if(board[row, column].flag)
+        {
+            return "btn-success";
+        }
+        if(board[row, column].mined)
+        {
+            return "btn-dark";
+        }
+        if(board[row, column].neighborMines == 0)
+        {
+            return "btn-light";
+        }
+        if(board[row, column].neighborMines < 2)
+        {
+           return "btn-warning";
+        }
+        if(board[row, column].neighborMines > 1)
+        {
+           return "btn-danger";
+        } 
         return "btn-primary";
     }
     public class Cell
-{
-    public bool mined { get; set; }
-    public bool seen { get; set; }
-    public bool flag { get; set; }
-    public int neighborMines { get; set; }        
-}
+    {
+        public bool mined { get; set; }
+        public bool seen { get; set; }
+        public bool flag { get; set; }
+        public int neighborMines { get; set; }
+    }
 }
