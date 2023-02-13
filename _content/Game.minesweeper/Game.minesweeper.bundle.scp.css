@@ -1,0 +1,19 @@
+/* _content/Game.minesweeper/Minesweeper.razor.rz.scp.css */
+.container[b-xmsf9ikj3f] {
+    display: flex;
+}
+
+.board[b-xmsf9ikj3f] {
+    display: grid;
+    grid-gap: 1px;
+    margin: 1px;
+}
+
+
+.cell[b-xmsf9ikj3f] {
+    text-align: center;
+    cursor: pointer;
+}
+button[b-xmsf9ikj3f] {
+    min-width: 6ch;
+}
