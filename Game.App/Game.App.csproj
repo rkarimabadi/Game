@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Game.minesweeper\Game.minesweeper.csproj" />
+    <ProjectReference Include="..\Game.sudoku\Game.sudoku.csproj" />
   </ItemGroup>
 
 </Project>

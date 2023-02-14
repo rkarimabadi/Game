@@ -1,0 +1,228 @@
+﻿@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Web;
+
+<div class="grid">
+    @for (int row = 0; row < GridSize; row++)
+    {
+        <div class="grid-row">
+        @for (int col = 0; col < GridSize; col++)
+        {
+            var _row = row;
+            var _col = col;
+            <div @onclick="@(() => HandleCellClicked(_row, _col))" class="cell @(row == SelectedRow && col == SelectedCol ? "selected" : "")">
+                <select @onchange="@((ChangeEventArgs args) => HandleValueSelected(args, _row, _col))" value="@GridValues[_row, _col]">
+                    <option value="0"> </option>
+                    @foreach (var value in PossibleValues)
+                    {
+                        <option value="@value">@value</option>
+                    }
+                </select>
+            </div>
+        }
+        </div>
+    }
+</div>
+<button class="btn btn-primary mt-3" @onclick="GenerateSudoku">Generate Sudoku</button>
+@code{
+    //The values of the sudoku cells
+    private int[,] GridValues { get; set; }
+
+    //The Difficulty Level of the game
+    private enum DifficultyLevel {Easy = 1, Medium = 2, Hard = 3 };
+    //The state of the game
+    private enum GameState { InProgress, Won, Lost };
+    private GameState CurrentState { get; set; }
+
+    //The currently selected cell
+    private int SelectedRow { get; set; }
+    private int SelectedCol { get; set; }
+
+    //The possible values for a cell
+    private List<int> PossibleValues { get; set; }
+
+    //The size of the sudoku game
+    private int GridSize { get; set; }
+
+    //Set up the game
+    protected override void OnInitialized()
+    {
+        //Set the size of the game
+        GridSize = 9;
+
+        //Initialize the grid
+        GridValues = new int[GridSize, GridSize];
+
+        //Create the list of possible values
+        PossibleValues = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        //Set the state of the game
+        CurrentState = GameState.InProgress;
+
+        //generate a solvable sudoku puzzel
+        GenerateSudoku();
+
+        base.OnInitialized();
+    }
+    private void GenerateSudoku()
+    {
+        var gen = new SudokuGenerator();
+        GridValues = gen.GenerateSudoku();
+    }
+
+    private bool IsValid(int row, int col, int value)
+    {
+        // Check row
+        for (int i = 0; i < 9; i++)
+        {
+            if (GridValues[row, i] == value)
+            {
+                return false;
+            }
+        }
+
+        // Check column
+        for (int i = 0; i < 9; i++)
+        {
+            if (GridValues[i, col] == value)
+            {
+                return false;
+            }
+        }
+
+        // Check 3x3 grid
+        int startRow = (row / 3) * 3;
+        int startCol = (col / 3) * 3;
+        for (int i = startRow; i < startRow + 3; i++)
+        {
+            for (int j = startCol; j < startCol + 3; j++)
+            {
+                if (GridValues[i, j] == value)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    //Handle when a cell is clicked
+    protected void HandleCellClicked(int row, int col)
+    {
+        //Set the selected cell
+        SelectedRow = row;
+        SelectedCol = col;
+    }
+
+    //Handle when a value is selected
+    protected void HandleValueSelected(ChangeEventArgs args, int row, int col)
+    {
+        //Get the selected value
+        int value = int.Parse(args.Value.ToString());
+
+        //Set the value in the grid
+        GridValues[row, col] = value;
+
+        //Check for a win
+        if (CheckWin())
+        {
+            CurrentState = GameState.Won;
+        }
+    }
+
+    //Check for a win
+    protected bool CheckWin()
+    {
+        //Check if all cells have been filled
+        if (!GridValues.Cast<int>().All(value => value != 0))
+        {
+            return false;
+        }
+
+        //Check rows
+        for (int row = 0; row < GridSize; row++)
+        {
+            if (!CheckRow(row))
+            {
+                return false;
+            }
+        }
+
+        //Check columns
+        for (int col = 0; col < GridSize; col++)
+        {
+            if (!CheckCol(col))
+            {
+                return false;
+            }
+        }
+
+        //Check 3x3 squares
+        for (int row = 0; row < GridSize; row += 3)
+        {
+            for (int col = 0; col < GridSize; col += 3)
+            {
+                if (!CheckSquare(row, col))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //Check if a row is valid
+    protected bool CheckRow(int row)
+    {
+        var values = new List<int>();
+        for (int col = 0; col < GridSize; col++)
+        {
+            int value = GridValues[row, col];
+            if (values.Contains(value))
+            {
+                return false;
+            }
+            values.Add(value);
+        }
+        return true;
+    }
+
+    //Check if a column is valid
+    protected bool CheckCol(int col)
+    {
+        var values = new List<int>();
+        for (int row = 0; row < GridSize; row++)
+        {
+            int value = GridValues[row, col];
+            if (values.Contains(value))
+            {
+                return false;
+            }
+            values.Add(value);
+        }
+        return true;
+    }
+
+    //Check if a 3x3 square is valid
+    protected bool CheckSquare(int row, int col)
+    {
+        var values = new List<int>();
+        for (int r = row; r < row + 3; r++)
+        {
+            for (int c = col; c < col + 3; c++)
+            {
+                int value = GridValues[r, c];
+                if (values.Contains(value))
+                {
+                    return false;
+                }
+                values.Add(value);
+            }
+        }
+        return true;
+    }    
+}
