@@ -1,0 +1,42 @@
+/* _content/Game.sudoku/Sudoku.razor.rz.scp.css */
+.grid[b-jbnagsztcm] {
+    display: grid;
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
+    border-collapse: collapse;
+}
+.grid-row[b-jbnagsztcm] {
+    display: contents;
+}
+.cell[b-jbnagsztcm] {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.selected[b-jbnagsztcm] {
+    background-color: #ccc;
+}
+select[b-jbnagsztcm] {
+    word-wrap: normal;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: none;
+    border: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: x-large;
+}
+.grid-row:first-child .cell[b-jbnagsztcm] {
+    border-top: 1px solid black;
+}
+.grid-row .cell:last-child[b-jbnagsztcm] {
+    border-right: 1px solid black;
+}
+.grid-row:nth-child(3n):not(:last-child) .cell[b-jbnagsztcm] {
+    border-bottom: 2px solid black;
+}
+.cell:nth-child(3n)[b-jbnagsztcm] {
+    border-right: 2px solid black;
+}
