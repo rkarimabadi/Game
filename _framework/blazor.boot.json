@@ -7,9 +7,9 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "Game.App.dll": "sha256-wE+zgFgL9C4tuEwMpSTSaLkO4W6GFRYRt7KLxxMCPWo=",
+      "Game.App.dll": "sha256-Ha9mcp\/d+Ob5KvMjodVtdOBsQpFo3FRc6gROYp69vCE=",
       "Game.minesweeper.dll": "sha256-BiOR3awSFAfuhaQ9Wo6VYtHZ7BmgG+F1td4xbr9iB7s=",
-      "Game.sudoku.dll": "sha256-EDdrsYaRA1r3WKBgSszLJ8CWS\/xJym\/R4eM3kW+Bs5Q=",
+      "Game.sudoku.dll": "sha256-TEliiiX+jrJPTO4kAY\/1rre99oX+wKwKxr8TDDpJCUs=",
       "Microsoft.AspNetCore.Components.dll": "sha256-VQa6aFV4jWu+N91HH5qo3X6WB6lL0PiJpEsQMx7hzh8=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-lLeAAdXYR99eecPiAQOdsoHhleI8Ws+b2Jh\/3KOESAE=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-qLRev3iQ8+ob2712HwRtFUJchqBHMqm+gr9bbFz7t14=",
