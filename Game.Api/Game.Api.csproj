@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game.App\Game.App.csproj" />
+    <ProjectReference Include="..\Game.WordGame.Share\Game.WordGame.Share.csproj" />
+  </ItemGroup>
+
 </Project>

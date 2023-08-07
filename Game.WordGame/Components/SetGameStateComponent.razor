@@ -1,0 +1,23 @@
+﻿@if (IsOwner && !IsAnyUnansweredQuestions && remainingQuestionsNumbers == 0 && (GameState == GameState.Ongoing || GameState == GameState.AwaitingResultAnnouncement))
+{
+    <div class="btn-group">
+        <button type="button" class="btn btn-success rounded-0" @onclick="@(() => SetGameState(GameState.Won))">Winner</button>
+        <button type="button" class="btn btn-danger rounded-0" @onclick="@(() => SetGameState(GameState.Lost))">loser</button>
+    </div>
+}
+@code {
+    [CascadingParameter(Name = "GameState")]
+    public GameState GameState { get; set; }
+    [CascadingParameter(Name = "IsOwner")]
+    public bool IsOwner { get; set; }
+    [CascadingParameter(Name = "IsAnyUnansweredQuestions")]
+    public bool IsAnyUnansweredQuestions { get; set; }
+    [CascadingParameter(Name = "remainingQuestionsNumbers")]
+    public int remainingQuestionsNumbers { get; set; }
+    [Parameter]
+    public EventCallback<GameState> OnStateIsSet { get; set; }
+    private void SetGameState(GameState state)
+    {
+        OnStateIsSet.InvokeAsync(state);
+    }
+}

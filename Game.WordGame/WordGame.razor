@@ -1,0 +1,51 @@
+﻿
+@inject IGameRepository GameRepository
+@inject IGameNotification GameNotification
+@implements IDisposable
+
+<CreateAGameComponent OnGameCreate="LocalGameCreated" />
+<ListOfGamesComponent OnSelectGame="(slectedgame) => game = slectedgame" GameList="GameList" />
+
+@if (game != null)
+{
+    <GameComponent Game="game"/>
+}
+
+@code{
+
+    private WordGameModel game;
+    public List<WordGameModel> GameList { get; set; } = new List<WordGameModel>();
+    public async Task GetGames()
+    {
+        GameList = await GameRepository.GetGames();
+    }
+    private async Task LocalGameCreated(WordGameModel arg)
+    {        
+        await GameNotification.CreateGame(arg);
+    }
+    private async void RemoteGameCreated(WordGameModel arg)
+    {
+        GameList.Add(arg);
+        await InvokeAsync(() => this.StateHasChanged());
+    }
+    private async void RemoteGameUpdated(WordGameModel arg)
+    {
+        GameList.Replace(arg);
+        if (game?.Id == arg.Id) game = arg;
+        await InvokeAsync(() => this.StateHasChanged());
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetGames();
+        GameNotification.GameCreated += RemoteGameCreated;
+        GameNotification.GameUpdated += RemoteGameUpdated;
+        base.OnInitializedAsync();
+    }
+
+    void IDisposable.Dispose()
+    {
+        GameNotification.GameCreated -= RemoteGameCreated;
+        GameNotification.GameUpdated -= RemoteGameUpdated;
+    }
+
+}

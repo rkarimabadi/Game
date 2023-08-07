@@ -1,0 +1,21 @@
+﻿@if(GameList != null && GameList.Count() > 0)
+{
+    <div class="card shadow-sm mb-3">
+        <div class="card-header">
+            List of available games
+        </div>
+        <div class="card-body">
+        @foreach(var item in GameList)
+        {
+            <button class="btn btn-success m-2" @onclick="async () => OnSelectGame.InvokeAsync(item)">@item.Name</button>
+        }
+        </div>
+    </div>
+}
+@code {
+    [Parameter]
+    public EventCallback<WordGameModel> OnSelectGame { set; get; }
+    [Parameter]
+    public List<WordGameModel> GameList { set; get; }
+
+}

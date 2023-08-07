@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Game.minesweeper\Game.minesweeper.csproj" />
     <ProjectReference Include="..\Game.sudoku\Game.sudoku.csproj" />
+    <ProjectReference Include="..\Game.WordGame\Game.WordGame.csproj" />
   </ItemGroup>
 
 </Project>

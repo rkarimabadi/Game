@@ -1,0 +1,48 @@
+﻿@inject PersonService PersonService
+@inject ILocalStorageService StorageService
+<div class="card shadow-sm mb-3">
+    <div class="card-header">
+        Making a new game
+    </div>
+    <div class="card-body">
+        <EditForm Model="game" OnValidSubmit="SetGame">
+            <DataAnnotationsValidator/>
+            <CustomCssClassProvider ProviderType="BootstrapFieldCssClassProvider"/>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                    <span class="input-group-text rounded-0 rounded-start">Game name:</span>
+              </div>
+                <InputText @bind-Value="game.Name" class="rounded-0 rounded-end" style="margin-right: -1px"  />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text rounded-0 rounded-start" id="basic-addon1">Number of questions allowed:</span>
+                </div>
+                <InputNumber @bind-Value="game.MaxAllowedQuestionsNumbers" class="rounded-0 rounded-end" style="margin-right: -1px" />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text rounded-0 rounded-start" id="basic-addon1">Game answer:</span>
+                </div>
+                <InputText @bind-Value="game.Answer" class="rounded-0 rounded-end" style="margin-right: -1px" />
+            </div>
+            <button type="submit" class="btn btn-primary float-start">Register the game</button>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter] public EventCallback<WordGameModel> OnGameCreate { set; get; }
+    private WordGameModel game = new WordGameModel();
+    private async Task SetGame()
+    {
+        game.Id = Guid.NewGuid();
+        game.Owner = PersonService.Person;
+        game.GameState = GameState.Ongoing;
+        game.QuestionList = new List<Question>();
+        await OnGameCreate.InvokeAsync(game);
+        game = new WordGameModel();
+    }
+}

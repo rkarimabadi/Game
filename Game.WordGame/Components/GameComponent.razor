@@ -1,0 +1,72 @@
+﻿
+@inject PersonService PersonService
+@inject IGameNotification GameNotification
+<div class="card shadow-sm mb-3">
+    <div class="card-header">
+        @Game.Name
+    </div>
+    <ul class="list-group list-group-flush pe-0">
+        <li class="list-group-item">Number of questions allowed: @Game.MaxAllowedQuestionsNumbers</li>
+        <li class="list-group-item">Number of remaining questions: @remainingQuestionsNumbers</li>
+        <li class="list-group-item">
+            Game status:
+            <span class="@(Game.GameState == GameState.Won ? "text-success":"") @(Game.GameState == GameState.Lost ? "text-danger":"") @(Game.GameState == GameState.Ongoing ? "text-primary":"") @(Game.GameState == GameState.AwaitingResultAnnouncement ? "text-warning":"")"><b>@Game.GameState.GetDescription()</b></span>
+        </li>
+        @if(Game.GameState == GameState.Lost || Game.GameState == GameState.Won)
+        {
+            <li class="list-group-item">Answer the game: <b>@Game.Answer</b> </li>
+        }
+    </ul>
+<CascadingValue Value="@remainingQuestionsNumbers" Name="remainingQuestionsNumbers">
+    <CascadingValue Value="@IsOwner" Name="IsOwner">
+        <CascadingValue Value="@IsAnyUnansweredQuestions" Name="IsAnyUnansweredQuestions">
+                <CascadingValue Value="@Game.GameState" Name="GameState">
+                    <QuestionListComponent Questions="Game.QuestionList" OnAnswerQuestion="QuestionAnswered" OnStateIsSet="GameStateSet" />
+                    <AskQuestionComponent OnAskQuestion="AskQuestion" />
+                    <SetGameStateComponent OnStateIsSet="GameStateSet" />
+                </CascadingValue>
+        </CascadingValue>
+    </CascadingValue>
+</CascadingValue>
+</div>
+@code {
+    [Parameter] public WordGameModel Game { get; set; }   
+
+    private int remainingQuestionsNumbers;
+
+    protected override void OnParametersSet()
+    {
+        remainingQuestionsNumbers = Game.MaxAllowedQuestionsNumbers - Game.QuestionList.Count;
+        base.OnParametersSet();
+    }
+    private bool IsOwner {
+        get
+        {
+            return Game.Owner.Id == PersonService.Person.Id;
+        } 
+    }
+
+    private bool IsAnyUnansweredQuestions
+    {
+        get
+        {
+            return Game.QuestionList.Any(a => a.Answer == null);
+        }
+    }
+
+    private async Task AskQuestion(Question question)
+    {
+        Game.QuestionList.Add(question);
+        await GameNotification.UpdateGame(Game);
+    }
+    private async Task QuestionAnswered(List<Question> questions)
+    {
+        Game.QuestionList = questions;
+        await GameNotification.UpdateGame(Game);
+    }
+    private async Task GameStateSet(GameState state)
+    {
+        Game.GameState = state;
+        await GameNotification.UpdateGame(Game);
+    }
+}

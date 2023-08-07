@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.App", "Game.App\Game.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.sudoku", "Game.sudoku\Game.sudoku.csproj", "{5A6CD2F2-A2D4-480A-8E1B-BC89EE84C9D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.Api", "Game.Api\Game.Api.csproj", "{B480DA3B-0BFC-4B11-BB39-C34D67905B6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Api", "Game.Api\Game.Api.csproj", "{B480DA3B-0BFC-4B11-BB39-C34D67905B6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.WordGame.Share", "Game.WordGame.Share\Game.WordGame.Share.csproj", "{AABCCA34-8D8B-4C0D-89C3-148EEF56A894}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.WordGame", "Game.WordGame\Game.WordGame.csproj", "{3FD6C767-96A3-4D4D-8970-50AA02E217A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{B480DA3B-0BFC-4B11-BB39-C34D67905B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B480DA3B-0BFC-4B11-BB39-C34D67905B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B480DA3B-0BFC-4B11-BB39-C34D67905B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AABCCA34-8D8B-4C0D-89C3-148EEF56A894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AABCCA34-8D8B-4C0D-89C3-148EEF56A894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AABCCA34-8D8B-4C0D-89C3-148EEF56A894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AABCCA34-8D8B-4C0D-89C3-148EEF56A894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FD6C767-96A3-4D4D-8970-50AA02E217A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD6C767-96A3-4D4D-8970-50AA02E217A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD6C767-96A3-4D4D-8970-50AA02E217A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD6C767-96A3-4D4D-8970-50AA02E217A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

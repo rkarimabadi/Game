@@ -1,0 +1,41 @@
+﻿@if (!IsOwner && !IsAnyUnansweredQuestions && remainingQuestionsNumbers > 0 && GameState == GameState.Ongoing)
+{
+<div class="card-body border border-top">
+    <EditForm Model="question" OnValidSubmit="AskQuestion">
+        <CustomCssClassProvider ProviderType="BootstrapFieldCssClassProvider"/>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text rounded-0 rounded-start">Question:</span>
+                </div>
+                <InputText @bind-Value="question.Text" class="rounded-0" style="margin-right: -1px" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary rounded-0 rounded-end"> ask</button>
+                </div>
+            </div>
+    </EditForm>
+</div>
+}
+
+
+@code {
+    [Parameter]
+    public EventCallback<Question> OnAskQuestion{ set; get; }
+    
+    [CascadingParameter(Name = "GameState")]
+    public GameState GameState { get; set; }
+    [CascadingParameter(Name = "IsOwner")]
+    public bool IsOwner { get; set; }
+
+    [CascadingParameter(Name = "IsAnyUnansweredQuestions")]
+    public bool IsAnyUnansweredQuestions { get; set; }
+
+    [CascadingParameter(Name = "remainingQuestionsNumbers")]
+    public int remainingQuestionsNumbers { get; set; }
+
+    private Question question = new Question() { Id = Guid.NewGuid()};
+    private async Task AskQuestion()
+    {
+        await OnAskQuestion.InvokeAsync(question);
+        question = new Question() { Id = Guid.NewGuid() };
+    }
+}
