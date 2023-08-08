@@ -1,8 +1,9 @@
-﻿@if(GameList != null && GameList.Count() > 0)
+﻿@inject IStringLocalizer<ListOfGames> Loc
+@if(GameList != null && GameList.Count() > 0)
 {
     <div class="card shadow-sm mb-3">
         <div class="card-header">
-            List of available games
+            @Loc["List of available games"]
         </div>
         <div class="card-body">
         @foreach(var item in GameList)

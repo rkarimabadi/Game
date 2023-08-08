@@ -1,15 +1,16 @@
-﻿@if (!IsOwner && !IsAnyUnansweredQuestions && remainingQuestionsNumbers > 0 && GameState == GameState.Ongoing)
+﻿@inject IStringLocalizer<AskQuestion> Loc
+@if (!IsOwner && !IsAnyUnansweredQuestions && remainingQuestionsNumbers > 0 && GameState == GameState.Ongoing)
 {
 <div class="card-body border border-top">
     <EditForm Model="question" OnValidSubmit="AskQuestion">
         <CustomCssClassProvider ProviderType="BootstrapFieldCssClassProvider"/>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text rounded-0 rounded-start">Question:</span>
+                    <span class="input-group-text rounded-0 rounded-start">@Loc["Question"]</span>
                 </div>
                 <InputText @bind-Value="question.Text" class="rounded-0" style="margin-right: -1px" />
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary rounded-0 rounded-end"> ask</button>
+                    <button type="submit" class="btn btn-primary rounded-0 rounded-end"> @Loc["Ask"]</button>
                 </div>
             </div>
     </EditForm>

@@ -1,8 +1,9 @@
-﻿@inject PersonService PersonService
+﻿@inject IStringLocalizer<CreateAGame> Loc
+@inject PersonService PersonService
 @inject ILocalStorageService StorageService
 <div class="card shadow-sm mb-3">
     <div class="card-header">
-        Making a new game
+        @Loc["Making a new game"]
     </div>
     <div class="card-body">
         <EditForm Model="game" OnValidSubmit="SetGame">
@@ -10,23 +11,23 @@
             <CustomCssClassProvider ProviderType="BootstrapFieldCssClassProvider"/>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                    <span class="input-group-text rounded-0 rounded-start">Game name:</span>
+                    <span class="input-group-text rounded-0 rounded-start">@Loc["Game name:"]</span>
               </div>
                 <InputText @bind-Value="game.Name" class="rounded-0 rounded-end" style="margin-right: -1px"  />
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text rounded-0 rounded-start" id="basic-addon1">Number of questions allowed:</span>
+                    <span class="input-group-text rounded-0 rounded-start" id="basic-addon1">@Loc["Number of questions allowed:"]</span>
                 </div>
                 <InputNumber @bind-Value="game.MaxAllowedQuestionsNumbers" class="rounded-0 rounded-end" style="margin-right: -1px" />
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text rounded-0 rounded-start" id="basic-addon1">Game answer:</span>
+                    <span class="input-group-text rounded-0 rounded-start" id="basic-addon1">@Loc["Game answer:"]</span>
                 </div>
                 <InputText @bind-Value="game.Answer" class="rounded-0 rounded-end" style="margin-right: -1px" />
             </div>
-            <button type="submit" class="btn btn-primary float-start">Register the game</button>
+            <button type="submit" class="btn btn-primary float-start">@Loc["Register the game"]</button>
         </EditForm>
     </div>
 </div>

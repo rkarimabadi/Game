@@ -4,7 +4,7 @@
         <ol class="list-group  list-group-flush p-0 m-0 border-0 rounded-0">
             @foreach (var item in Questions)
             {
-            <QuestionComponent Question="item" OnAnswerQuestion="QuestionAnswered" OnStateIsSet="@((arg)=> OnStateIsSet.InvokeAsync(arg))" />
+            <QuestionContainerComponent Question="item" OnAnswerQuestion="QuestionAnswered" OnStateIsSet="@((arg)=> OnStateIsSet.InvokeAsync(arg))" />
             }
         </ol>
     }

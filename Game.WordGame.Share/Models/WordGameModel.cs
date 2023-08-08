@@ -33,7 +33,7 @@ namespace Game.WordGame.Share.Models
     {
         [EnumDescription("Won")]
         Won,
-        [EnumDescription("lost")]
+        [EnumDescription("Lost")]
         Lost,
         [EnumDescription("On Going")]
         Ongoing,

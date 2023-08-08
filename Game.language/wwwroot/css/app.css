@@ -6,3 +6,6 @@
 html, body {
     font-family: var(--body-font);
 }
+.form-control {
+    font-size: 0.9rem;
+}

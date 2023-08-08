@@ -25,6 +25,16 @@ namespace Game.language
             var module = await moduleTask.Value;
             await module.InvokeVoidAsync("setPageDirection", direction);
         }
+        public async Task SetPageLanguage(string language)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("setPageLanguage", language);
+        }
+        public async Task ChangeBootstrapTheme(string theme)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("changeBootstrapTheme", theme);
+        }
         public void SetBlazorCulture(string message)
         {
             var module = moduleTask.Value.Result;

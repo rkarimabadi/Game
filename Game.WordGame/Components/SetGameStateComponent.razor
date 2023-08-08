@@ -1,8 +1,9 @@
-﻿@if (IsOwner && !IsAnyUnansweredQuestions && remainingQuestionsNumbers == 0 && (GameState == GameState.Ongoing || GameState == GameState.AwaitingResultAnnouncement))
+﻿@inject IStringLocalizer<SetGameState> Loc
+@if (IsOwner && !IsAnyUnansweredQuestions && remainingQuestionsNumbers == 0 && (GameState == GameState.Ongoing || GameState == GameState.AwaitingResultAnnouncement))
 {
     <div class="btn-group">
-        <button type="button" class="btn btn-success rounded-0" @onclick="@(() => SetGameState(GameState.Won))">Winner</button>
-        <button type="button" class="btn btn-danger rounded-0" @onclick="@(() => SetGameState(GameState.Lost))">loser</button>
+        <button type="button" class="btn btn-success rounded-0" @onclick="@(() => SetGameState(GameState.Won))">@Loc["Winner"]</button>
+        <button type="button" class="btn btn-danger rounded-0" @onclick="@(() => SetGameState(GameState.Lost))">@Loc["Loser"]</button>
     </div>
 }
 @code {

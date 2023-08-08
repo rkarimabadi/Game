@@ -1,4 +1,4 @@
-﻿
+﻿@inject IStringLocalizer<GameContainer> Loc
 @inject PersonService PersonService
 @inject IGameNotification GameNotification
 <div class="card shadow-sm mb-3">
@@ -6,15 +6,15 @@
         @Game.Name
     </div>
     <ul class="list-group list-group-flush pe-0">
-        <li class="list-group-item">Number of questions allowed: @Game.MaxAllowedQuestionsNumbers</li>
-        <li class="list-group-item">Number of remaining questions: @remainingQuestionsNumbers</li>
+        <li class="list-group-item">@Loc["Number of questions allowed:"] @Game.MaxAllowedQuestionsNumbers</li>
+        <li class="list-group-item">@Loc["Number of remaining questions:"] @remainingQuestionsNumbers</li>
         <li class="list-group-item">
-            Game status:
-            <span class="@(Game.GameState == GameState.Won ? "text-success":"") @(Game.GameState == GameState.Lost ? "text-danger":"") @(Game.GameState == GameState.Ongoing ? "text-primary":"") @(Game.GameState == GameState.AwaitingResultAnnouncement ? "text-warning":"")"><b>@Game.GameState.GetDescription()</b></span>
+            @Loc["Game status:"]
+            <span class="@(Game.GameState == GameState.Won ? "text-success":"") @(Game.GameState == GameState.Lost ? "text-danger":"") @(Game.GameState == GameState.Ongoing ? "text-primary":"") @(Game.GameState == GameState.AwaitingResultAnnouncement ? "text-warning":"")"><b>@(Loc[Game.GameState.ToString()])</b></span>
         </li>
         @if(Game.GameState == GameState.Lost || Game.GameState == GameState.Won)
         {
-            <li class="list-group-item">Answer the game: <b>@Game.Answer</b> </li>
+            <li class="list-group-item">@Loc["Answer the game:"] <b>@Game.Answer</b> </li>
         }
     </ul>
 <CascadingValue Value="@remainingQuestionsNumbers" Name="remainingQuestionsNumbers">
