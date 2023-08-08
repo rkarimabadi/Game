@@ -1,0 +1,21 @@
+﻿@using System.Globalization;
+@inject CultureJsInterop CultureJsInterop
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
+            {
+                await CultureJsInterop.SetPageDirection("rtl");
+                await CultureJsInterop.UpdateCSSVariable("--body-font", "'IRANSans', 'Segoe UI', Tahoma, Helvetica, Arial");
+            }
+            else
+            {
+                await CultureJsInterop.SetPageDirection("ltr");
+                await CultureJsInterop.UpdateCSSVariable("--body-font", "'Helvetica Neue', Helvetica, Arial, sans-serif");
+            }
+        }
+    }
+}

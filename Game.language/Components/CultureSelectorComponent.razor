@@ -1,0 +1,36 @@
+﻿@inject CultureJsInterop CultureJsInterop
+@inject NavigationManager Navigation
+@inject IStringLocalizer<CultureSelector> Loc
+<p class="mb-0">
+
+<label>
+        @Loc["Select your locale"]
+    <select class="custom-select" @bind="Culture">
+        @foreach (var culture in supportedCultures)
+        {
+            <option value="@culture">@culture.DisplayName</option>
+        }
+    </select>            
+</label>
+</p>
+
+
+@code {
+    private CultureInfo[] supportedCultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("fa-IR"),
+    };
+    private CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                CultureJsInterop.SetBlazorCulture(value.Name);
+                Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+            }
+        }
+    }
+}

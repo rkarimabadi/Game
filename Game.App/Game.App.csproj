@@ -4,15 +4,19 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.9" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.9" />
     <PackageReference Include="PublishSPAforGitHubPages.Build" Version="2.1.0" />
+    <PackageReference Include="System.Globalization" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Game.language\Game.language.csproj" />
     <ProjectReference Include="..\Game.minesweeper\Game.minesweeper.csproj" />
     <ProjectReference Include="..\Game.sudoku\Game.sudoku.csproj" />
     <ProjectReference Include="..\Game.WordGame\Game.WordGame.csproj" />
