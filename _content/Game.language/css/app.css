@@ -1,0 +1,11 @@
+@import url('font/IRANSans/style.css');
+:root {
+    --body-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --fa-font: 'IRANSans', 'Segoe UI', Tahoma, Helvetica, Arial;
+}
+html, body {
+    font-family: var(--body-font);
+}
+.form-control {
+    font-size: 0.9rem;
+}
